@@ -1,24 +1,23 @@
 interface tileFamily {
 	tilefamilyId: number
 	name: string
-	forTile?: number[]
 }
 
 export const TileFamily: tileFamily[] = [
 	{
-		tilefamilyId: 1,
+		tilefamilyId: 0,
 		name: "Europe",
 	},
 	{
-		tilefamilyId: 2,
+		tilefamilyId: 1,
 		name: "Asie",
 	},
 	{
-		tilefamilyId: 3,
+		tilefamilyId: 2,
 		name: "Amérique",
 	},
 	{
-		tilefamilyId: 4,
+		tilefamilyId: 3,
 		name: "Afrique",
 	},
 ]

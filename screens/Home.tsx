@@ -1,6 +1,6 @@
 import React, { FC } from "react"
 import { AspectRatio, Box, Button, Image, Text, View } from "native-base"
-
+import { TileFamily } from "../database/index"
 type HomeProps = {}
 
 const Home: FC<HomeProps> = ({}) => {
@@ -32,6 +32,7 @@ const Home: FC<HomeProps> = ({}) => {
 				onPress={() => console.log("hello world")}>
 				Jouer
 			</Button>
+			<Text>{TileFamily[0].name}</Text>
 		</View>
 	)
 }
