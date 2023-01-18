@@ -32,7 +32,9 @@ const Theme = extendTheme({
     Button:{
       baseStyle: {
         rounded: 'xl',
-        background: 'primary.red',
+      },
+      defaultProps: {
+        colorScheme: 'primary.red',
       },
     }
   }
