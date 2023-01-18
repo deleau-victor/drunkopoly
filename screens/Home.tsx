@@ -1,9 +1,18 @@
-import React, { FC } from "react"
-import { AspectRatio, Box, Button, Image, Text, View } from "native-base"
-import { TileFamily } from "../database/index"
-type HomeProps = {}
+import React, { FC, useState } from "react"
+import { Box, Button, Image, Input, Row, Text, View } from "native-base"
+import { RootStackParamList } from "../App"
+import { NativeStackScreenProps } from "@react-navigation/native-stack"
 
-const Home: FC<HomeProps> = ({}) => {
+type HomeProps = NativeStackScreenProps<RootStackParamList, "Home">
+
+const Home: FC<HomeProps> = ({ navigation }) => {
+	const [playerNames, setPlayerName] = useState<string[]>([])
+	const saveText = (index: number, text: string) => {
+		let copy = playerNames
+		copy.splice(index, 1, text)
+		setPlayerName(copy)
+	}
+
 	return (
 		<View>
 			<Box
@@ -35,10 +44,16 @@ const Home: FC<HomeProps> = ({}) => {
 				marginX='auto'
 				_text={{ fontWeight: "bold", fontSize: "2xl" }}
 				background='primary.red'
-				onPress={() => console.log("hello world")}>
+				onPress={() => navigation.navigate("Game")}>
 				Jouer
 			</Button>
-			<Text>{TileFamily[0].name}</Text>
+			<Row justifyContent='center' width='full'>
+				<Text color='primary.white' fontWeight='bold' fontSize='xl'>
+					Taux de satiété
+				</Text>
+			</Row>
+			<Input onChangeText={(text) => saveText(0, text)} />
+			<Input onChangeText={(text) => saveText(1, text)} />
 		</View>
 	)
 }
