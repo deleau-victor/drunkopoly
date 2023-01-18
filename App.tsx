@@ -15,8 +15,14 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 // State management
 import { Provider } from "react-redux"
 import { store } from "./store/store"
+import Game from "./screens/Game"
 
-const Stack = createNativeStackNavigator()
+export type RootStackParamList = {
+	Home: undefined
+	Game: undefined
+}
+
+const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export default function App() {
 	return (
@@ -31,6 +37,7 @@ export default function App() {
 							initialRouteName='Home' // set the initial route name
 						>
 							<Stack.Screen name='Home' component={Home} />
+							<Stack.Screen name='Game' component={Game} />
 						</Stack.Navigator>
 					</NavigationContainer>
 				</SafeAreaProvider>

@@ -1,5 +1,4 @@
-
-import { Button, extendTheme } from 'native-base';
+import { extendTheme } from "native-base"
 
 const Theme = extendTheme({
   colors:{
@@ -40,4 +39,4 @@ const Theme = extendTheme({
   }
 })
 
-  export default Theme
+export default Theme

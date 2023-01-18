@@ -1,15 +1,18 @@
+
 import React, { FC, useEffect, useState } from "react"
 import { AspectRatio, Box, Button, Image, Input, Row, ScrollView, Text, View } from "native-base"
 import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
 import { addPlayer, updatePlayer } from "../slices/player.slice"
-type HomeProps = {}
+import { RootStackParamList } from "../App"
+import { NativeStackScreenProps } from "@react-navigation/native-stack"
+
+type HomeProps = NativeStackScreenProps<RootStackParamList, "Home">
 
 const Home: FC<HomeProps> = ({}) => {
 
 	const dispatch = useAppDispatch()
 
 	const [players, setPlayers] = useState<string[]>([])
-
 
 	return (
 		<View>
@@ -98,6 +101,7 @@ const Home: FC<HomeProps> = ({}) => {
 				marginTop='30%'
 				marginX='auto'
 				_text={{ fontWeight: "bold", fontSize: "2xl" }}
+
 				background={players.length < 2 ? 'red.400' : 'primary.red'}
 				onPress={() => {
 					players.forEach(player => dispatch(addPlayer(player)))
