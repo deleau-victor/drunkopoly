@@ -6,19 +6,25 @@ type HomeProps = {}
 const Home: FC<HomeProps> = ({}) => {
 	return (
 		<View>
-			<Box style={{ transform: [{ rotate: "-15deg" }] }}>
+			<Box
+				style={{ transform: [{ rotate: "-15deg" }] }}
+				width='full'
+				justifyItems='center'
+				marginBottom={10}>
 				<Image
 					source={require("../assets/images/logo.png")}
 					resizeMode='contain'
 					width='80%'
 					alt='logo'
-					background='amber.100'
+					marginX='auto'
 				/>
 				<Text
 					color='primary.white'
 					position='absolute'
+					width={"80%"}
+					textAlign='center'
+					marginX='10%'
 					bottom={0}
-					left='0'
 					fontWeight='bold'
 					fontSize='xl'>
 					Le Monopoly des soirées
