@@ -7,6 +7,8 @@ const Theme = extendTheme({
       red: "#E52528",
       blue: "#0E396B",
       grey: "#414141",
+      white: '#FFFFFF',
+      black: "#000000"
     },
     secondary:{
       blue: "#069ABB",
@@ -16,6 +18,17 @@ const Theme = extendTheme({
     }
   },
   components: {
+    Box: {
+      baseStyle:{
+        backgroundColor: "primary.blue",
+        flex: 1,
+      }
+    },
+    Text:{
+      baseStyle:{
+        color: "primary.black",
+      }
+    }
   }
 })
 

@@ -1,16 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { NativeBaseProvider,Text, View } from "native-base";
+
+// Style
+import { NativeBaseProvider } from "native-base";
 import Theme from './Theme';
+
+// Navigation
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
+// Screens
+import Home from './screens/Home';
+
+
+const Stack = createNativeStackNavigator()
 
 
 export default function App() {
   return (
     <NativeBaseProvider theme={Theme}>
-        <View flex={1} alignItems="center" justifyContent="center" bgColor="primary.blue">
-          <Text>sqd</Text>
-          <StatusBar style="auto" />
-        </View> 
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false, // hide the default header
+          }}
+          initialRouteName="Home" // set the initial route name
+        >
+          <Stack.Screen name="Home" component={Home} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </NativeBaseProvider>
   );
 }
