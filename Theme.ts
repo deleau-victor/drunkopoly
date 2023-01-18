@@ -1,5 +1,5 @@
 
-import { extendTheme } from 'native-base';
+import { Button, extendTheme } from 'native-base';
 
 const Theme = extendTheme({
   colors:{
@@ -18,9 +18,9 @@ const Theme = extendTheme({
     }
   },
   components: {
-    Box: {
+    View: {
       baseStyle:{
-        backgroundColor: "primary.blue",
+        background: 'primary.blue',
         flex: 1,
       }
     },
@@ -28,6 +28,12 @@ const Theme = extendTheme({
       baseStyle:{
         color: "primary.black",
       }
+    },
+    Button:{
+      baseStyle: {
+        rounded: 'xl',
+        background: 'primary.red',
+      },
     }
   }
 })
