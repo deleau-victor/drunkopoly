@@ -1,6 +1,15 @@
-
 import React, { FC, useEffect, useState } from "react"
-import { AspectRatio, Box, Button, Image, Input, Row, ScrollView, Text, View } from "native-base"
+import {
+	AspectRatio,
+	Box,
+	Button,
+	Image,
+	Input,
+	Row,
+	ScrollView,
+	Text,
+	View,
+} from "native-base"
 import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
 import { addPlayer, updatePlayer } from "../slices/player.slice"
 import { RootStackParamList } from "../App"
@@ -8,8 +17,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack"
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, "Home">
 
-const Home: FC<HomeProps> = ({}) => {
-
+const Home: FC<HomeProps> = ({ navigation }) => {
 	const dispatch = useAppDispatch()
 
 	const [players, setPlayers] = useState<string[]>([])
@@ -21,8 +29,7 @@ const Home: FC<HomeProps> = ({}) => {
 				style={{ transform: [{ rotate: "-10deg" }] }}
 				width='full'
 				justifyItems='center'
-				marginBottom={10}
-			>
+				marginBottom={10}>
 				{/* Logo */}
 				<Image
 					source={require("../assets/images/logo.png")}
@@ -45,53 +52,76 @@ const Home: FC<HomeProps> = ({}) => {
 				</Text>
 			</Box>
 
-			<Box width='80%' marginTop='10%' marginX='auto' background='primary.red' rounded='2xl'>
+			<Box
+				width='80%'
+				marginTop='10%'
+				marginX='auto'
+				background='primary.red'
+				rounded='2xl'>
 				{/* Header */}
 				<Box>
 					<Text
 						color='primary.white'
 						fontSize='2xl'
 						fontWeight='bold'
-						marginX='auto'
-					> 
+						marginX='auto'>
 						Liste des Joueurs
 					</Text>
 				</Box>
 
 				{/* Body */}
-				<ScrollView background='primary.white' roundedBottom='2xl' h='30%' overflow='hidden' margin='1'>
+				<ScrollView
+					background='primary.white'
+					roundedBottom='2xl'
+					h='30%'
+					overflow='hidden'
+					margin='1'>
 					{/* for each player */}
-					{players.map(
-						(player,index) =>
+					{players.map((player, index) => (
 						<Row key={index}>
 							{/* input to customize player's name */}
-							<Input 
-							placeholder={`joueur${index}`}  flex='1' variant="underlined" padding='2'
-							value={player} onChangeText={(text)=>setPlayers(players.map((player,number) => number != index ? player : text))}
+							<Input
+								placeholder={`joueur${index}`}
+								flex='1'
+								variant='underlined'
+								padding='2'
+								value={player}
+								onChangeText={(text) =>
+									setPlayers(
+										players.map((player, number) =>
+											number != index ? player : text,
+										),
+									)
+								}
 							/>
 
 							{/* Delete a player */}
-							<Button 
-							rounded='none' background='transparent' 
-							_text={{color:'gray.600', fontWeight:'bold'}}
-							onPress={() => setPlayers(players.filter((player,number) => number !== index))}
-							>
+							<Button
+								rounded='none'
+								background='transparent'
+								_text={{ color: "gray.600", fontWeight: "bold" }}
+								onPress={() =>
+									setPlayers(
+										players.filter(
+											(player, number) => number !== index,
+										),
+									)
+								}>
 								X
 							</Button>
 						</Row>
-						)
-					}
+					))}
 				</ScrollView>
 
 				{/* Add a player */}
 				<Box position='absolute' w='full' bottom='-20'>
-					<Button 
-						w='25%' marginX='auto'
+					<Button
+						w='25%'
+						marginX='auto'
 						onPress={() => setPlayers([...players, ""])}>
 						+
 					</Button>
 				</Box>
-				
 			</Box>
 
 			{/* Start Button */}
@@ -101,12 +131,13 @@ const Home: FC<HomeProps> = ({}) => {
 				marginTop='30%'
 				marginX='auto'
 				_text={{ fontWeight: "bold", fontSize: "2xl" }}
-
-				background={players.length < 2 ? 'red.400' : 'primary.red'}
+				background={players.length < 2 ? "red.400" : "primary.red"}
 				onPress={() => {
-					players.forEach(player => dispatch(addPlayer(player)))
-					}}
-				>
+					players.forEach((player) => {
+						dispatch(addPlayer(player))
+						navigation.navigate("Game")
+					})
+				}}>
 				Jouer
 			</Button>
 		</View>

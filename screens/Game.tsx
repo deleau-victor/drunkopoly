@@ -19,10 +19,6 @@ type GameProps = NativeStackScreenProps<RootStackParamList, "Game">
 const Game: FC<GameProps> = ({}) => {
 	const [size, setSize] = useState<number>(0)
 
-	useEffect(() => {
-		console.log(size)
-	}, [size])
-
 	return (
 		<View
 			onLayout={(event) => {
