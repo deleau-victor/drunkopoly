@@ -10,6 +10,8 @@ const playerSlice = createSlice({
 		addPlayer: (state: Player[], action: PayloadAction<string>) => {
 			let id = state.length
 			let name = action.payload
+			if (state.find((player) => player.name === name))
+				throw new Error("Player name already exists")
 			let position = 0
 			state.push({ id, name, position })
 			return state
