@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { Box, Flex, Text } from "native-base"
+import { Flex } from "native-base"
 import { Tile } from "../database"
 
 type GameBoardProps = {
