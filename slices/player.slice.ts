@@ -4,7 +4,7 @@ import { Player } from "../store/types/player"
 const initialState: Player[] = []
 
 const playerSlice = createSlice({
-	name: "player",
+	name: "players",
 	initialState: initialState,
 	reducers: {
 		addPlayer: (state: Player[], action: PayloadAction<string>) => {
@@ -21,6 +21,6 @@ const playerSlice = createSlice({
 
 const { actions, reducer } = playerSlice
 
-export const { addPlayer } = actions
+export const { addPlayer, updatePlayer } = actions
 
 export default reducer
