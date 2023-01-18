@@ -23,19 +23,36 @@ const GameBoard: FC<GameBoardProps> = ({ size }) => {
 					if (tileId === 0) {
 						position.right = 0
 					} else {
-						position.right = size * tileId + 8 * tileId
+						if ((tileId + 1) % 7 === 0) {
+							position.right = size * 7
+						} else {
+							position.right = size * tileId + 8 * tileId
+						}
 					}
 				} else if (tileId < 13) {
 					position.right = size * 7
-					position.bottom = size * (tileId - 6) + 8 * (tileId - 6)
+					if ((tileId - 6) % 7 === 0) {
+						console.log(tileId)
+						position.bottom = size * 7
+					} else {
+						position.bottom = size * (tileId - 6) + 8 * (tileId - 6)
+					}
 				} else if (tileId < 19) {
-					position.right =
-						size * 7 - (8 * (tileId - 12) + size * (tileId - 12))
+					if ((tileId - 12) % 7 === 0) {
+						position.right = 0
+					} else {
+						position.right =
+							size * 7 - (8 * (tileId - 12) + size * (tileId - 12))
+					}
 					position.bottom = size * 7
 				} else {
 					position.right = 0
-					position.bottom =
-						size * 7 - (8 * (tileId - 18) + size * (tileId - 18))
+					if ((tileId - 18) % 7 === 0) {
+						position.bottom = 8 + size
+					} else {
+						position.bottom =
+							size * 7 - (8 * (tileId - 18) + size * (tileId - 18))
+					}
 				}
 
 				return (
