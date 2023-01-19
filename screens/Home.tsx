@@ -8,12 +8,14 @@ import {
 	ScrollView,
 	Text,
 	View,
+
 } from "native-base"
 import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
 import { addPlayer } from "../slices/player.slice"
 import { RootStackParamList } from "../App"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { SafeAreaView } from "react-native-safe-area-context"
+
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, "Home">
 
