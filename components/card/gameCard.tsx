@@ -1,17 +1,18 @@
 import React, { FC } from "react"
 import { Box, Button, Column, Row, Text } from "native-base"
 
-type GameCardProps = {}
+type GameCardProps = {
+	close: () => void
+}
 
-const GameCard: FC<GameCardProps> = ({}) => {
+const GameCard: FC<GameCardProps> = ({ close }) => {
 	return (
 		<Box
 			marginX='10%'
 			w='80%'
 			h='60%'
 			backgroundColor='primary.100'
-			position='absolute'
-			top='100%'>
+			opacity={100}>
 			{/* Header */}
 			<Box h='20%' backgroundColor='secondary.pink'>
 				<Text
@@ -20,6 +21,9 @@ const GameCard: FC<GameCardProps> = ({}) => {
 					fontSize='3xl'
 					fontWeight='bold'>
 					Title
+				</Text>
+				<Text position='absolute' onPress={() => close()}>
+					X
 				</Text>
 			</Box>
 			{/* Body */}

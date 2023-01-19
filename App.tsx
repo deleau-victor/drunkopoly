@@ -13,7 +13,7 @@ import Home from "./screens/Home"
 import Game from "./screens/Game"
 import Test from "./screens/Test"
 
-
+// Native Components
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
 // State management
