@@ -2,13 +2,14 @@
 import React, { FC, useEffect, useState } from "react"
 import { AspectRatio, Box, Button, Image, Input, Row, ScrollView, Text, View } from "native-base"
 import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
-import { addPlayer, updatePlayer } from "../slices/player.slice"
+import { addPlayer } from "../slices/player.slice"
 import { RootStackParamList } from "../App"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, "Home">
 
-const Home: FC<HomeProps> = ({}) => {
+const Home: FC<HomeProps> = ({navigation}) => {
 
 	const dispatch = useAppDispatch()
 
@@ -85,9 +86,10 @@ const Home: FC<HomeProps> = ({}) => {
 
 				{/* Add a player */}
 				<Box position='absolute' w='full' bottom='-20'>
-					<Button 
+					<Button
 						w='25%' marginX='auto'
-						onPress={() => setPlayers([...players, ""])}>
+						onPress={() => setPlayers([...players, ""])}
+					>
 						+
 					</Button>
 				</Box>
@@ -105,10 +107,12 @@ const Home: FC<HomeProps> = ({}) => {
 				background={players.length < 2 ? 'red.400' : 'primary.red'}
 				onPress={() => {
 					players.forEach(player => dispatch(addPlayer(player)))
+					navigation.navigate('Game')
 					}}
 				>
 				Jouer
 			</Button>
+			<Button onPress={()=>navigation.navigate('Test')}>Test</Button>
 		</View>
 	)
 }

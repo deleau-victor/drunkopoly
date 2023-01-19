@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useState } from "react"
 import {
 	Box,
 	Flex,
@@ -18,10 +18,6 @@ type GameProps = NativeStackScreenProps<RootStackParamList, "Game">
 
 const Game: FC<GameProps> = ({}) => {
 	const [size, setSize] = useState<number>(0)
-
-	useEffect(() => {
-		console.log(size)
-	}, [size])
 
 	return (
 		<View

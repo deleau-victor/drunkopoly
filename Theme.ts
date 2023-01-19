@@ -33,7 +33,7 @@ const Theme = extendTheme({
         rounded: 'xl',
       },
       defaultProps: {
-        colorScheme: 'primary.red',
+        colorScheme: 'red',
       },
     }
   }
