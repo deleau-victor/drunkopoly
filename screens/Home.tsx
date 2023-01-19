@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from "react"
 import {
 	Box,
 	Button,
@@ -8,14 +8,14 @@ import {
 	ScrollView,
 	Text,
 	View,
-} from 'native-base'
-import { useAppDispatch, useAppSelector } from '../hooks/typedReduxHooks'
-import { addPlayer, updatePlayer } from '../slices/player.slice'
-import { RootStackParamList } from '../App'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { SafeAreaView } from 'react-native-safe-area-context'
+} from "native-base"
+import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
+import { addPlayer } from "../slices/player.slice"
+import { RootStackParamList } from "../App"
+import { NativeStackScreenProps } from "@react-navigation/native-stack"
+import { SafeAreaView } from "react-native-safe-area-context"
 
-type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>
+type HomeProps = NativeStackScreenProps<RootStackParamList, "Home">
 
 const Home: FC<HomeProps> = ({ navigation }) => {
 	const dispatch = useAppDispatch()
@@ -27,14 +27,13 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 			<SafeAreaView>
 				{/* Logo and title */}
 				<Box
-					style={{ transform: [{ rotate: '-10deg' }] }}
+					style={{ transform: [{ rotate: "-10deg" }] }}
 					width='full'
 					justifyItems='center'
-					marginBottom={10}
-				>
+					marginBottom={10}>
 					{/* Logo */}
 					<Image
-						source={require('../assets/images/logo.png')}
+						source={require("../assets/images/logo.png")}
 						resizeMode='contain'
 						width='80%'
 						alt='logo'
@@ -44,13 +43,12 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 					<Text
 						color='primary.white'
 						position='absolute'
-						width={'80%'}
+						width={"80%"}
 						textAlign='center'
 						marginX='10%'
 						bottom={0}
 						fontWeight='bold'
-						fontSize='xl'
-					>
+						fontSize='xl'>
 						Le Monopoly des soirées
 					</Text>
 				</Box>
@@ -60,16 +58,14 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 					marginTop='10%'
 					marginX='auto'
 					background='primary.red'
-					rounded='2xl'
-				>
+					rounded='2xl'>
 					{/* Header */}
 					<Box>
 						<Text
 							color='primary.white'
 							fontSize='2xl'
 							fontWeight='bold'
-							marginX='auto'
-						>
+							marginX='auto'>
 							Liste des Joueurs
 						</Text>
 					</Box>
@@ -80,8 +76,7 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 						roundedBottom='2xl'
 						h='30%'
 						overflow='hidden'
-						margin='1'
-					>
+						margin='1'>
 						{/* for each player */}
 						{players.map((player, index) => (
 							<Row key={index}>
@@ -95,8 +90,8 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 									onChangeText={(text) =>
 										setPlayers(
 											players.map((player, number) =>
-												number != index ? player : text
-											)
+												number != index ? player : text,
+											),
 										)
 									}
 								/>
@@ -105,13 +100,14 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 								<Button
 									rounded='none'
 									background='transparent'
-									_text={{ color: 'gray.600', fontWeight: 'bold' }}
+									_text={{ color: "gray.600", fontWeight: "bold" }}
 									onPress={() =>
 										setPlayers(
-											players.filter((player, number) => number !== index)
+											players.filter(
+												(player, number) => number !== index,
+											),
 										)
-									}
-								>
+									}>
 									X
 								</Button>
 							</Row>
@@ -123,8 +119,7 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 						<Button
 							w='25%'
 							marginX='auto'
-							onPress={() => setPlayers([...players, ''])}
-						>
+							onPress={() => setPlayers([...players, ""])}>
 							+
 						</Button>
 					</Box>
@@ -136,15 +131,15 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 					width='60%'
 					marginTop='30%'
 					marginX='auto'
-					_text={{ fontWeight: 'bold', fontSize: '2xl' }}
-					background={players.length < 2 ? 'red.400' : 'primary.red'}
+					_text={{ fontWeight: "bold", fontSize: "2xl" }}
+					background={players.length < 2 ? "red.400" : "primary.red"}
 					onPress={() => {
 						players.forEach((player) => {
 							dispatch(addPlayer(player))
-							navigation.navigate('Game')
+							setPlayers([])
+							navigation.navigate("Game")
 						})
-					}}
-				>
+					}}>
 					Jouer
 				</Button>
 			</SafeAreaView>
