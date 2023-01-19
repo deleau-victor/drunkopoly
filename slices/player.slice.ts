@@ -21,6 +21,6 @@ const playerSlice = createSlice({
 
 const { actions, reducer } = playerSlice
 
-export const { addPlayer, updatePlayer } = actions
+export const { addPlayer } = actions
 
 export default reducer
