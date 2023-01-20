@@ -17,7 +17,7 @@ import GameBoard from "../components/game/gameBoard"
 import GameCard from "../components/card/gameCard"
 
 // State management
-import { useAppDispatch } from "../hooks/typedReduxHooks"
+import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
 import { resetPlayers } from "../slices/player.slice"
 
 type GameProps = NativeStackScreenProps<RootStackParamList, "Game">
@@ -52,10 +52,6 @@ const Game: FC<GameProps> = ({ navigation }) => {
 			)
 		})
 	}, [navigation])
-
-	useEffect(() => {
-		console.log(cardToDisplay)
-	}, [cardToDisplay])
 
 	return (
 		<View>
