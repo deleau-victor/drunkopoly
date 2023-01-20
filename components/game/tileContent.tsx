@@ -1,6 +1,8 @@
-import React, { FC } from "react"
-import { Box, Center, Image } from "native-base"
+import React, { FC, useEffect } from "react"
+import { Box, Center, Image, Row, Text } from "native-base"
 import { TileFamily } from "../../database"
+import { useAppSelector } from "../../hooks/typedReduxHooks"
+import { Player } from "../../store/types/player"
 
 type TileContentProps = {
 	tileId: number
@@ -13,38 +15,23 @@ const TileContent: FC<TileContentProps> = ({
 	tilefamily_id,
 	tileName,
 }) => {
+	const {players} = useAppSelector(state => state.PlayerState)
+
+	// Get the list of players by case
+	const playersOnCase = ():Player[] => players.filter((player) => player.position === tileId)
+	
+
 	return (
 		<Center textAlign='center' height='full' width='full'>
 			{tilefamily_id || tilefamily_id === 0 ? (
-				tilefamily_id === 0 ? (
-					<Image
-						source={require("../../assets/icons/pinkHome.png")}
-						resizeMode='contain'
-						width='50%'
-						alt='pink home'
-					/>
-				) : tilefamily_id === 1 ? (
-					<Image
-						source={require("../../assets/icons/orangeHome.png")}
-						resizeMode='contain'
-						width='50%'
-						alt='orange home'
-					/>
-				) : tilefamily_id === 2 ? (
-					<Image
-						source={require("../../assets/icons/greenHome.png")}
-						resizeMode='contain'
-						width='50%'
-						alt='green home'
-					/>
-				) : (
-					<Image
-						source={require("../../assets/icons/blueHome.png")}
-						resizeMode='contain'
-						width='50%'
-						alt='blue home'
-					/>
-				)
+				<Image
+					source={require("../../assets/icons/pinkHome.png")}
+					resizeMode='contain'
+					width='50%'
+					alt='pink home'
+					tintColor={TileFamily.filter((family) => family.tilefamilyId === tilefamily_id)[0].color}
+				/>
+				
 			) : tileName === "Action" || tileName === "Chance" ? (
 				tileName === "Action" ? (
 					<Image
@@ -98,6 +85,15 @@ const TileContent: FC<TileContentProps> = ({
 					bgColor={TileFamily[tilefamily_id].color}
 					bottom={0}></Box>
 			) : null}
+
+			{/* Display each player on the case */}
+			<Row w='90%' h='90%' position='absolute' justifyContent='space-around' flexWrap='wrap' top='5%'>
+				{playersOnCase().map((player,index) =>{
+					return(
+					<Box key={index} h='3' w='3' rounded='full' backgroundColor={player.color}/>
+					)
+				})}
+			</Row>
 		</Center>
 	)
 }

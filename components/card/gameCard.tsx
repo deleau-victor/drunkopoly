@@ -21,7 +21,7 @@ const GameCard: FC<GameCardProps> = ({ close, propertyId, owner }) => {
 			/*marginX='10%'*/
 			w='80%'
 			h='60%'
-			backgroundColor='primary.100'
+			backgroundColor='primary.white'
 			opacity={100}>
 			{/* Header */}
 			<GameHeaderCard propertyId={propertyId!} close={close} />
