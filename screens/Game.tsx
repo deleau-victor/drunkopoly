@@ -48,14 +48,11 @@ const Game: FC<GameProps> = ({ navigation }) => {
 	}
 
 	const calcPlayerNextPosition = (diceScore:number) => {
-		console.log('diceScore', diceScore)
 		let tot = diceScore + players[currentPlayer].position
 
 		if(tot > Tile.length - 1){
 			return tot = tot - Tile.length
 		}
-
-		console.log('next position', tot)
 
 		return tot
 	}
@@ -64,7 +61,6 @@ const Game: FC<GameProps> = ({ navigation }) => {
 		let currentPosition = players[currentPlayer].position
 		// while player isn't at next position
 		do {
-			console.log('current position', currentPosition)
 			if(currentPosition < Tile.length - 1){
 				currentPosition += 1
 				dispatch(playerMoove(currentPosition))
