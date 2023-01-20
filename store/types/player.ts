@@ -4,3 +4,8 @@ export interface Player {
 	position: number
 	color: string
 }
+
+export interface PlayerState {
+	players: Player[]
+	currentPlayer: Player["id"]
+}
