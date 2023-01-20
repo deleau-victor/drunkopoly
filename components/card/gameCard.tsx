@@ -1,17 +1,23 @@
 import React, { FC } from "react"
 import { Box, Button, Column, Row, Text } from "native-base"
 
-type GameCardProps = {}
+type GameCardProps = {
+	propertyId: string // define the id of the property
+	propertyPriceId: string // define the table property price id of the property
+	ownerId: string // optional - define the owner's id of the property
+	level: number // optional - define the level of the property
+}
 
 const GameCard: FC<GameCardProps> = ({}) => {
 	return (
 		<Box
-			marginX='10%'
+			/*marginX='10%'*/
 			w='80%'
 			h='60%'
 			backgroundColor='primary.100'
-			position='absolute'
-			top='100%'>
+			/*position='absolute'*/
+			margin='auto'
+			/*top='100%'*/>
 			{/* Header */}
 			<Box h='20%' backgroundColor='secondary.pink'>
 				<Text
@@ -24,9 +30,12 @@ const GameCard: FC<GameCardProps> = ({}) => {
 			</Box>
 			{/* Body */}
 			<Column flex='1' padding='5' space='5'>
+				{/* Title */}
 				<Text fontSize='xl' fontWeight='semibold'>
 					Loyer
 				</Text>
+
+				{/* Buy prices */}
 				<Box>
 					<Row marginX='auto' w='full' justifyContent='space-between'>
 						<Text>* Terrain nu</Text>
@@ -46,9 +55,13 @@ const GameCard: FC<GameCardProps> = ({}) => {
 					</Row>
 				</Box>
 
+				<Text marginY='5%' marginX='auto'>Il n'y a pas de propriétaire</Text>
+
+				{/* Action's button */}
 				<Button
-					w='80%'
+					w='90%'
 					marginX='auto'
+					background='secondary.pink'
 					_text={{
 						fontSize: "xl",
 						fontWeight: "black",

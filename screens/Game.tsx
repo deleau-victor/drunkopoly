@@ -11,14 +11,14 @@ import {
 } from "native-base"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../App"
-import GameBoard from "../components/game/gameBoard"
 import { SafeAreaView } from "react-native-safe-area-context"
 import Playerlist from "../components/game/playerlist"
 import { Alert } from "react-native"
 import { useAppDispatch } from "../hooks/typedReduxHooks"
 import { resetPlayers } from "../slices/player.slice"
-import GameCard from "../components/card/gameCard"
 import GameTopInfo from "../components/game/gameTopInfo"
+import GameBoard from "../components/game/gameBoard"
+import GameCard from "../components/card/gameCard"
 
 type GameProps = NativeStackScreenProps<RootStackParamList, "Game">
 
