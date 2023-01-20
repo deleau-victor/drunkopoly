@@ -5,7 +5,7 @@ import propertiesReducer from "../slices/proprietes.slice"
 export const store = configureStore({
 	reducer: {
 		PlayerState: playerReducer,
-		propertiesReducer: propertiesReducer,
+		propertiesState: propertiesReducer,
 	},
 })
 

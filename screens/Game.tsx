@@ -17,7 +17,7 @@ import GameCard from "../components/card/gameCard"
 
 // State management
 import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
-import { playerMoove, resetPlayers } from "../slices/player.slice"
+import { nextPlayer, playerMoove, resetPlayers } from "../slices/player.slice"
 import { Player } from "../store/types/player"
 
 // database
@@ -41,6 +41,8 @@ const Game: FC<GameProps> = ({ navigation }) => {
 		(state) => state.PlayerState,
 	)
 
+	const properties = useAppSelector((state) => state.propertiesState)
+
 	const dispatch = useAppDispatch()
 
 	const handleCardDisplay = (id: number) => {
@@ -49,21 +51,24 @@ const Game: FC<GameProps> = ({ navigation }) => {
 	}
 
 	const getRunderDiceNumber = () => {
-		return Math.floor(Math.random() * (7 - 1) + 1)
+		let result = Math.round(Math.random() * 6)
+		if (result === 0) {
+			result = 1
+		}
+		return result
 	}
 
 	const calcPlayerNextPosition = (diceScore: number) => {
 		let tot = diceScore + players[currentPlayer].position
-
 		if (tot > Tile.length - 1) {
 			return (tot = tot - Tile.length)
 		}
-
 		return tot
 	}
 
 	const moovePlayerToNextPosition = (nextPosition: number) => {
 		let currentPosition = players[currentPlayer].position
+
 		// while player isn't at next position
 		do {
 			if (currentPosition < Tile.length - 1) {
@@ -74,6 +79,37 @@ const Game: FC<GameProps> = ({ navigation }) => {
 				dispatch(playerMoove(currentPosition))
 			}
 		} while (currentPosition != nextPosition)
+		if (
+			Tile[nextPosition].tilefamily_id! ||
+			Tile[nextPosition].tilefamily_id === 0
+		) {
+			let asOwner = properties.find(
+				(property) => property.propertyId === nextPosition,
+			)
+			if (asOwner !== undefined) {
+				if (asOwner.ownerId === players[currentPlayer].id) {
+					setcardToDisplay({
+						context: "isOwner",
+						id: nextPosition,
+						owner: players[currentPlayer],
+					})
+				} else {
+					setcardToDisplay({
+						context: "isLocator",
+						id: nextPosition,
+						owner: players[asOwner.ownerId],
+					})
+				}
+			} else {
+				setcardToDisplay({
+					context: "noOwner",
+					id: nextPosition,
+					owner: undefined,
+				})
+			}
+		} else {
+			dispatch(nextPlayer())
+		}
 	}
 
 	const roleDice = () => {
@@ -124,12 +160,11 @@ const Game: FC<GameProps> = ({ navigation }) => {
 
 					{/* Bottom interaction zone */}
 					<Center height='25%'>
-						<Button onPress={() => navigation.navigate("Test")}>
+						<Button onPress={() => roleDice()}>
 							<Text
 								fontWeight='bold'
 								color='primary.white'
-								fontSize='2xl'
-								onPress={() => roleDice()}>
+								fontSize='2xl'>
 								Lancez le dé
 							</Text>
 						</Button>

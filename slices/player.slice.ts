@@ -50,6 +50,13 @@ const playerSlice = createSlice({
 			state.players[state.currentPlayer].gorgées -= action.payload.gorgées
 			return state
 		},
+		nextPlayer: (state: PlayerState) => {
+			state.currentPlayer += 1
+			if (state.currentPlayer >= state.players.length) {
+				state.currentPlayer = 0
+			}
+			return state
+		},
 	},
 })
 
@@ -62,6 +69,7 @@ export const {
 	playerMoove,
 	playerBuyBuild,
 	playerDrink,
+	nextPlayer,
 } = actions
 
 export default reducer

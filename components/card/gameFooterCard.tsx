@@ -7,6 +7,7 @@ import { Button, Text } from "native-base"
 // Redux
 import { useAppDispatch, useAppSelector } from "../../hooks/typedReduxHooks"
 import {
+	nextPlayer,
 	playerBuyBuild,
 	playerBuyTile,
 	playerDrink,
@@ -32,7 +33,7 @@ const GameFooterCard: FC<GameFooterCardProps> = ({
 }) => {
 	const dispatch = useAppDispatch()
 	const { currentPlayer } = useAppSelector((state) => state.PlayerState)
-	const proprietes = useAppSelector((state) => state.propertiesReducer)
+	const proprietes = useAppSelector((state) => state.propertiesState)
 	const [level, setLevel] = useState<number>()
 	const [owner, setOwner] = useState<number>()
 
@@ -84,6 +85,7 @@ const GameFooterCard: FC<GameFooterCardProps> = ({
 								ownerId: currentPlayer,
 							}),
 						)
+						dispatch(nextPlayer())
 						close()
 					}}>
 					Achète le terrain et bois 1 gorgée
@@ -105,6 +107,7 @@ const GameFooterCard: FC<GameFooterCardProps> = ({
 						onPress={() => {
 							dispatch(augmentPropertyLevel(propertyId!))
 							dispatch(playerBuyBuild(level! + 2))
+							dispatch(nextPlayer())
 							close()
 						}}>
 						<Text
@@ -142,7 +145,10 @@ const GameFooterCard: FC<GameFooterCardProps> = ({
 							fontWeight: "black",
 							textAlign: "center",
 						}}
-						onPress={() => close()}>
+						onPress={() => {
+							dispatch(nextPlayer())
+							close()
+						}}>
 						Propriétée améliorée au maximum
 					</Button>
 				))}
@@ -167,6 +173,7 @@ const GameFooterCard: FC<GameFooterCardProps> = ({
 						dispatch(
 							playerDrink({ gorgées: level! + 1, ownerId: owner! }),
 						)
+						dispatch(nextPlayer())
 						close()
 					}}>{`Paye ton loyer et bois ${level! + 1} gorgée${
 					level! > 0 ? "s" : ""
