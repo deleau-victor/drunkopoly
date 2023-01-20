@@ -1,31 +1,35 @@
+// React
 import React, { FC, useEffect, useState } from "react"
-import {
-	Box,
-	Flex,
-	Text,
-	View,
-	Image,
-	Column,
-	Center,
-	Button,
-} from "native-base"
+import { Alert } from "react-native"
+
+// NativeBase
+import { Text, View, Center, Button, Modal } from "native-base"
+import { SafeAreaView } from "react-native-safe-area-context"
+
+// Navigation
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../App"
-import { SafeAreaView } from "react-native-safe-area-context"
-import Playerlist from "../components/game/playerlist"
-import { Alert } from "react-native"
-import { useAppDispatch } from "../hooks/typedReduxHooks"
-import { resetPlayers } from "../slices/player.slice"
+
+// Components
 import GameTopInfo from "../components/game/gameTopInfo"
 import GameBoard from "../components/game/gameBoard"
 import GameCard from "../components/card/gameCard"
+import Playerlist from "../components/game/playerlist"
+
+
+import { SafeAreaView } from "react-native-safe-area-context"
+import { Alert } from "react-native"
+
+
+// State management
+import { useAppDispatch } from "../hooks/typedReduxHooks"
+import { resetPlayers } from "../slices/player.slice"
 
 type GameProps = NativeStackScreenProps<RootStackParamList, "Game">
 
 const Game: FC<GameProps> = ({ navigation }) => {
 	const [size, setSize] = useState<number>(0)
-
-	const [cardToDisplay, setcardToDisplay] = useState<number>()
+	const [cardToDisplay, setcardToDisplay] = useState<number | undefined>()
 
 	const dispatch = useAppDispatch()
 
@@ -69,29 +73,7 @@ const Game: FC<GameProps> = ({ navigation }) => {
 					{/* Top info content */}
 					<GameTopInfo />
 					{/* Game board */}
-					<Flex
-						width={`${size! * 7 + 6 * 8}px`}
-						height={`${size! * 7 + 6 * 8}px`}
-						marginX='auto'
-						justifyContent='center'
-						alignItems='center'>
-						<GameBoard size={size} openCard={setcardToDisplay} />
-						<Box
-							width='full'
-							position='absolute'
-							zIndex={20}
-							style={{
-								transform: [{ rotate: "-45deg" }, { translateY: -16 }],
-							}}>
-							<Image
-								source={require("../assets/images/logo.png")}
-								resizeMode='contain'
-								width='80%'
-								alt='logo'
-								marginX='auto'
-							/>
-						</Box>
-					</Flex>
+					<GameBoard size={size} openCard={setcardToDisplay} />
 					{/* Bottom interaction zone */}
 					<Center height='20%'>
 						<Button onPress={() => navigation.navigate("Test")}>
@@ -105,7 +87,16 @@ const Game: FC<GameProps> = ({ navigation }) => {
 					</Center>
 				</Center>
 			</SafeAreaView>
-			<GameCard />
+			{cardToDisplay ? (
+				<Center
+					height='full'
+					position='absolute'
+					width='full'
+					background='rgba(0,0,0,0.5)'
+					opacity={100}>
+					<GameCard close={() => setcardToDisplay(undefined)} />
+				</Center>
+			) : null}
 		</View>
 	)
 }

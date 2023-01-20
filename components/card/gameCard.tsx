@@ -8,16 +8,18 @@ type GameCardProps = {
 	level: number // optional - define the level of the property
 }
 
-const GameCard: FC<GameCardProps> = ({}) => {
+const GameCard: FC<GameCardProps> = ({ close }) => {
 	return (
 		<Box
 			/*marginX='10%'*/
 			w='80%'
 			h='60%'
 			backgroundColor='primary.100'
+			opacity={100}>
 			/*position='absolute'*/
 			margin='auto'
 			/*top='100%'*/>
+      
 			{/* Header */}
 			<Box h='20%' backgroundColor='secondary.pink'>
 				<Text
@@ -26,6 +28,9 @@ const GameCard: FC<GameCardProps> = ({}) => {
 					fontSize='3xl'
 					fontWeight='bold'>
 					Title
+				</Text>
+				<Text position='absolute' onPress={() => close()}>
+					X
 				</Text>
 			</Box>
 			{/* Body */}

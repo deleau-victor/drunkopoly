@@ -7,7 +7,7 @@ type TestProps = {}
 const Test: FC<TestProps> = ({}) => {
 	return (
 		<View>
-			<GameCard />
+			<GameCard close={() => {}} />
 		</View>
 	)
 }

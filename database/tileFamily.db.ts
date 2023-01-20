@@ -1,23 +1,28 @@
 interface tileFamily {
 	tilefamilyId: number
 	name: string
+	color: string
 }
 
 export const TileFamily: tileFamily[] = [
 	{
 		tilefamilyId: 0,
-		name: "Europe",
+		name: "Asie",
+		color: "secondary.pink",
 	},
 	{
 		tilefamilyId: 1,
-		name: "Asie",
+		name: "Afrique",
+		color: "secondary.orange",
 	},
 	{
 		tilefamilyId: 2,
 		name: "Amérique",
+		color: "secondary.green",
 	},
 	{
 		tilefamilyId: 3,
-		name: "Afrique",
+		name: "Europe",
+		color: "secondary.blue",
 	},
 ]
