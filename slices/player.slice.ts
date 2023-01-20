@@ -11,13 +11,17 @@ const playerSlice = createSlice({
 	name: "PlayerState",
 	initialState: initialState,
 	reducers: {
-		addPlayer: (state: PlayerState, action: PayloadAction<string>) => {
+		addPlayer: (
+			state: PlayerState,
+			action: PayloadAction<{ name: string; gorgées: number }>,
+		) => {
 			let id = state.players.length
-			let name = action.payload
+			let name = action.payload.name
 			let color = genereateRandomColor()
 			let position = 0
+			let gorgées = action.payload.gorgées
 			let possesion: number[] = []
-			state.players.push({ id, name, position, color, possesion })
+			state.players.push({ id, name, position, color, possesion, gorgées })
 			return state
 		},
 		resetPlayers: (state: PlayerState) => {

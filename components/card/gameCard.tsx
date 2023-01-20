@@ -1,4 +1,4 @@
-// react
+// React
 import React, { FC } from "react"
 
 // NativeBase
