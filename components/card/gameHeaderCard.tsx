@@ -4,10 +4,9 @@ import { Tile, TileFamily } from "../../database"
 
 type GameHeaderCardProps = {
 	propertyId: number
-	close: () => void
 }
 
-const GameHeaderCard: FC<GameHeaderCardProps> = ({ propertyId, close }) => {
+const GameHeaderCard: FC<GameHeaderCardProps> = ({ propertyId }) => {
 	return (
 		// Display the color of the family of the tile
 		<Box
@@ -25,9 +24,6 @@ const GameHeaderCard: FC<GameHeaderCardProps> = ({ propertyId, close }) => {
 				fontSize='3xl'
 				fontWeight='bold'>
 				{Tile[propertyId].name}
-			</Text>
-			<Text position='absolute' onPress={() => close()}>
-				X
 			</Text>
 		</Box>
 	)
