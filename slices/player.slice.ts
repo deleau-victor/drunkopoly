@@ -16,7 +16,8 @@ const playerSlice = createSlice({
 			let name = action.payload
 			let color = genereateRandomColor()
 			let position = 0
-			state.players.push({ id, name, position, color })
+			let possesion: number[] = []
+			state.players.push({ id, name, position, color, possesion })
 			return state
 		},
 		resetPlayers: (state: PlayerState) => {
@@ -24,11 +25,14 @@ const playerSlice = createSlice({
 			state.currentPlayer = 0
 			return state
 		},
+		playerBuyTile: (state: PlayerState, action: PayloadAction<number>) => {
+			state.players[state.currentPlayer].possesion.push(action.payload)
+		},
 	},
 })
 
 const { actions, reducer } = playerSlice
 
-export const { addPlayer, resetPlayers } = actions
+export const { addPlayer, resetPlayers, playerBuyTile } = actions
 
 export default reducer

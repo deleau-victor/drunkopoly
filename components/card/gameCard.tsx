@@ -1,15 +1,21 @@
 import React, { FC } from "react"
-import { Box, Button, Column, Row, Text } from "native-base"
+import { Box, Button, Column } from "native-base"
+import { Tile, TileFamily } from "../../database"
+import GameHeaderCard from "./gameHeaderCard"
+import GameBodyCard from "./gameBodyCard"
+import { Player } from "../../store/types/player"
+import { useAppDispatch, useAppSelector } from "../../hooks/typedReduxHooks"
+import { playerBuyTile } from "../../slices/player.slice"
 
 type GameCardProps = {
-	close : () => void
-	propertyId: string // define the id of the property
-	propertyPriceId: string // define the table property price id of the property
-	ownerId: string // optional - define the owner's id of the property
-	level: number // optional - define the level of the property
+	close: () => void
+	propertyId: number | undefined // define the id of the property
+	owner: Player | undefined // optional - define the owner's id of the property
 }
 
-const GameCard: FC<GameCardProps> = ({ close }) => {
+const GameCard: FC<GameCardProps> = ({ close, propertyId, owner }) => {
+	const dispatch = useAppDispatch()
+
 	return (
 		<Box
 			/*marginX='10%'*/
@@ -17,58 +23,29 @@ const GameCard: FC<GameCardProps> = ({ close }) => {
 			h='60%'
 			backgroundColor='primary.100'
 			opacity={100}>
-      
 			{/* Header */}
-			<Box h='20%' backgroundColor='secondary.pink'>
-				<Text
-					margin='auto'
-					color='primary.white'
-					fontSize='3xl'
-					fontWeight='bold'>
-					Title
-				</Text>
-				<Text position='absolute' onPress={() => close()}>
-					X
-				</Text>
-			</Box>
+			<GameHeaderCard propertyId={propertyId!} close={close} />
 			{/* Body */}
 			<Column flex='1' padding='5' space='5'>
-				{/* Title */}
-				<Text fontSize='xl' fontWeight='semibold'>
-					Loyer
-				</Text>
-
-				{/* Buy prices */}
-				<Box>
-					<Row marginX='auto' w='full' justifyContent='space-between'>
-						<Text>* Terrain nu</Text>
-						<Text>1 Gorgée</Text>
-					</Row>
-					<Row marginX='auto' w='full' justifyContent='space-between'>
-						<Text>* Terrain nu</Text>
-						<Text>1 Gorgée</Text>
-					</Row>
-					<Row marginX='auto' w='full' justifyContent='space-between'>
-						<Text>* Terrain nu</Text>
-						<Text>1 Gorgée</Text>
-					</Row>
-					<Row marginX='auto' w='full' justifyContent='space-between'>
-						<Text>* Terrain nu</Text>
-						<Text>1 Gorgée</Text>
-					</Row>
-				</Box>
-
-				<Text marginY='5%' marginX='auto'>Il n'y a pas de propriétaire</Text>
+				<GameBodyCard owner={owner} propertyId={propertyId!} />
 
 				{/* Action's button */}
 				<Button
 					w='90%'
 					marginX='auto'
-					background='secondary.pink'
+					background={
+						TileFamily.filter(
+							({ tilefamilyId }) =>
+								tilefamilyId === Tile[propertyId!].tilefamily_id,
+						)[0].color
+					}
 					_text={{
 						fontSize: "xl",
 						fontWeight: "black",
 						textAlign: "center",
+					}}
+					onPress={() => {
+						dispatch(playerBuyTile(propertyId!))
 					}}>
 					Achète le terrain et bois 1 gorgée
 				</Button>
