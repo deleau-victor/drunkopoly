@@ -137,8 +137,8 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 					background={players.length < 2 ? "red.400" : "primary.red"}
 					onPress={() => {
 						players.forEach((player) => {
-							dispatch(addPlayer(player))
-							setPlayers([])
+							dispatch(addPlayer(player)) // add players to the players store
+							setPlayers([]) // reset the home players list
 							navigation.navigate("Game")
 						})
 					}}>
