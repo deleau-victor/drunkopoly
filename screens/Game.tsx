@@ -10,15 +10,12 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../App"
 
+
 // Components
 import GameTopInfo from "../components/game/gameTopInfo"
 import GameBoard from "../components/game/gameBoard"
 import GameCard from "../components/card/gameCard"
 import Playerlist from "../components/game/playerlist"
-
-
-import { SafeAreaView } from "react-native-safe-area-context"
-import { Alert } from "react-native"
 
 
 // State management

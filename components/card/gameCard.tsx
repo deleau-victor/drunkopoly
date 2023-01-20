@@ -2,6 +2,7 @@ import React, { FC } from "react"
 import { Box, Button, Column, Row, Text } from "native-base"
 
 type GameCardProps = {
+	close : () => void
 	propertyId: string // define the id of the property
 	propertyPriceId: string // define the table property price id of the property
 	ownerId: string // optional - define the owner's id of the property
@@ -16,9 +17,6 @@ const GameCard: FC<GameCardProps> = ({ close }) => {
 			h='60%'
 			backgroundColor='primary.100'
 			opacity={100}>
-			/*position='absolute'*/
-			margin='auto'
-			/*top='100%'*/>
       
 			{/* Header */}
 			<Box h='20%' backgroundColor='secondary.pink'>

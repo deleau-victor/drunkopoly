@@ -12,8 +12,6 @@ const playerSlice = createSlice({
 			let id = state.length
 			let name = action.payload
 			let color = genereateRandomColor()
-			if (state.find((player) => player.name === name))
-				throw new Error("Player name already exists")
 			let position = 0
 			state.push({ id, name, position, color })
 			return state

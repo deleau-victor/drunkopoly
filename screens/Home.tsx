@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react"
 import {
+	Alert,
 	Box,
 	Button,
 	Image,
@@ -23,6 +24,22 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 	const dispatch = useAppDispatch()
 
 	const [players, setPlayers] = useState<string[]>([])
+
+	// Check if all players' names are correct
+	const checkPlayers = () =>{
+		players.forEach((playerName) =>{
+			// Check if player's name has a correct length
+			if (playerName.length < 3)
+				throw new Error('player list has player with too short names')
+			
+			// find all occurrences of player's name
+			let playerOccurences = players.filter((player) => player === playerName)
+
+			// check if a player's name has more than one occurrence
+			if(playerOccurences.length > 1)
+				throw new Error('Player has more than one occurrence')
+		})
+	}
 
 	return (
 		<View>
@@ -136,6 +153,7 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 					_text={{ fontWeight: "bold", fontSize: "2xl" }}
 					background={players.length < 2 ? "red.400" : "primary.red"}
 					onPress={() => {
+						checkPlayers()
 						players.forEach((player) => {
 							dispatch(addPlayer(player)) // add players to the players store
 							setPlayers([]) // reset the home players list
