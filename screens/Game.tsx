@@ -15,8 +15,6 @@ import { RootStackParamList } from "../App"
 import GameTopInfo from "../components/game/gameTopInfo"
 import GameBoard from "../components/game/gameBoard"
 import GameCard from "../components/card/gameCard"
-import Playerlist from "../components/game/playerlist"
-
 
 // State management
 import { useAppDispatch } from "../hooks/typedReduxHooks"
