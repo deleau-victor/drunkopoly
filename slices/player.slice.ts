@@ -1,23 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Player } from "../store/types/player"
+import { PlayerState } from "../store/types/player"
 import { genereateRandomColor } from "../utils/generateRandomColor"
 
-const initialState: Player[] = []
+const initialState: PlayerState = {
+	players: [],
+	currentPlayer: 0,
+}
 
 const playerSlice = createSlice({
-	name: "players",
+	name: "PlayerState",
 	initialState: initialState,
 	reducers: {
-		addPlayer: (state: Player[], action: PayloadAction<string>) => {
-			let id = state.length
+		addPlayer: (state: PlayerState, action: PayloadAction<string>) => {
+			let id = state.players.length
 			let name = action.payload
 			let color = genereateRandomColor()
 			let position = 0
-			state.push({ id, name, position, color })
+			state.players.push({ id, name, position, color })
 			return state
 		},
-		resetPlayers: (state: Player[]) => {
-			state = []
+		resetPlayers: (state: PlayerState) => {
+			state.players = []
+			state.currentPlayer = 0
 			return state
 		},
 	},

@@ -1,11 +1,11 @@
 import React, { FC } from "react"
-import { Box, Center, Row, Text } from "native-base"
+import { Box, Row, Text } from "native-base"
 import { useAppSelector } from "../../hooks/typedReduxHooks"
 
 type PlayerlistProps = {}
 
 const Playerlist: FC<PlayerlistProps> = ({}) => {
-	const players = useAppSelector((state) => state.players)
+	const { players } = useAppSelector((state) => state.PlayerState)
 	return (
 		<Row flexWrap='wrap' space='4' width='80%' justifyItems='center'>
 			{players.map(({ name, id, color }) => (
