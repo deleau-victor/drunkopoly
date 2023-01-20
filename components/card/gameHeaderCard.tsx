@@ -9,6 +9,7 @@ type GameHeaderCardProps = {
 
 const GameHeaderCard: FC<GameHeaderCardProps> = ({ propertyId, close }) => {
 	return (
+		// Display the color of the family of the tile
 		<Box
 			h='20%'
 			backgroundColor={
@@ -17,6 +18,7 @@ const GameHeaderCard: FC<GameHeaderCardProps> = ({ propertyId, close }) => {
 						tilefamilyId === Tile[propertyId].tilefamily_id,
 				)[0].color
 			}>
+			{/* Display the name of the tile */}
 			<Text
 				margin='auto'
 				color={"primary.white"}
