@@ -148,10 +148,15 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 
 				{/* Start Button */}
 				<Center marginTop='10%' w='70%' mx='15%'>
-					<Text fontSize='lg' fontWeight='bold'>
+					<Text fontSize='lg' fontWeight='bold' color='primary.white'>
 						On joue pour
 					</Text>
-					<Text textAlign='center' fontSize='xl' fontWeight='bold' mb={2}>
+					<Text
+						textAlign='center'
+						fontSize='xl'
+						fontWeight='bold'
+						mb={2}
+						color='primary.white'>
 						{onChangeValue} Gorgées !
 					</Text>
 					<Slider

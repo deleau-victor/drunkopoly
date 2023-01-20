@@ -1,5 +1,5 @@
 // React
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 
 // NativeBase
 import { Box, Row, Text } from "native-base"
@@ -54,7 +54,7 @@ const PropertyBodyCard: FC<PropertyBodyCardProps> = ({ propertyId, owner }) => {
 			</Box>
 
 			{/* Proprio */}
-			<Text fontSize='xl' fontWeight='semibold' textAlign='center'>
+			<Text fontSize='xl' fontWeight='semibold' textAlign='center' mt={10}>
 				Propriétaire
 			</Text>
 			<Text marginY='5%' marginX='auto'>

@@ -31,16 +31,45 @@ const playerSlice = createSlice({
 		},
 		playerBuyTile: (state: PlayerState, action: PayloadAction<number>) => {
 			state.players[state.currentPlayer].possesion.push(action.payload)
+			state.players[state.currentPlayer].gorgées -= 1
+			return state
 		},
 		playerMoove: (state: PlayerState, action: PayloadAction<number>) => {
 			state.players[state.currentPlayer].position = action.payload
 			return state
-		}
+		},
+		playerBuyBuild: (state: PlayerState, action: PayloadAction<number>) => {
+			state.players[state.currentPlayer].gorgées -= action.payload
+			return state
+		},
+		playerDrink: (
+			state: PlayerState,
+			action: PayloadAction<{ ownerId: number; gorgées: number }>,
+		) => {
+			state.players[action.payload.ownerId].gorgées += action.payload.gorgées
+			state.players[state.currentPlayer].gorgées -= action.payload.gorgées
+			return state
+		},
+		nextPlayer: (state: PlayerState) => {
+			state.currentPlayer += 1
+			if (state.currentPlayer >= state.players.length) {
+				state.currentPlayer = 0
+			}
+			return state
+		},
 	},
 })
 
 const { actions, reducer } = playerSlice
 
-export const { addPlayer, resetPlayers, playerBuyTile, playerMoove } = actions
+export const {
+	addPlayer,
+	resetPlayers,
+	playerBuyTile,
+	playerMoove,
+	playerBuyBuild,
+	playerDrink,
+	nextPlayer,
+} = actions
 
 export default reducer
