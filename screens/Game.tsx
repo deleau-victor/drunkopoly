@@ -10,7 +10,6 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../App"
 
-
 // Components
 import GameTopInfo from "../components/game/gameTopInfo"
 import GameBoard from "../components/game/gameBoard"
@@ -19,14 +18,27 @@ import GameCard from "../components/card/gameCard"
 // State management
 import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
 import { resetPlayers } from "../slices/player.slice"
+import { Player } from "../store/types/player"
 
 type GameProps = NativeStackScreenProps<RootStackParamList, "Game">
 
+interface cardToDisplay {
+	id: number | undefined
+	owner: Player | undefined
+}
+
 const Game: FC<GameProps> = ({ navigation }) => {
 	const [size, setSize] = useState<number>(0)
-	const [cardToDisplay, setcardToDisplay] = useState<number | undefined>()
+	const [cardToDisplay, setcardToDisplay] = useState<cardToDisplay>()
+
+	const { players } = useAppSelector((state) => state.PlayerState)
 
 	const dispatch = useAppDispatch()
+
+	const handleCardDisplay = (id: number) => {
+		const owner = players.find((player) => player.possesion.includes(id))
+		setcardToDisplay({ id, owner: owner })
+	}
 
 	useEffect(() => {
 		navigation.addListener("beforeRemove", (event) => {
@@ -64,7 +76,7 @@ const Game: FC<GameProps> = ({ navigation }) => {
 					{/* Top info content */}
 					<GameTopInfo />
 					{/* Game board */}
-					<GameBoard size={size} openCard={setcardToDisplay} />
+					<GameBoard size={size} openCard={handleCardDisplay} />
 					{/* Bottom interaction zone */}
 					<Center height='20%'>
 						<Button onPress={() => navigation.navigate("Test")}>
@@ -85,7 +97,11 @@ const Game: FC<GameProps> = ({ navigation }) => {
 					width='full'
 					background='rgba(0,0,0,0.5)'
 					opacity={100}>
-					<GameCard close={() => setcardToDisplay(undefined)} />
+					<GameCard
+						close={() => setcardToDisplay(undefined)}
+						propertyId={cardToDisplay.id}
+						owner={cardToDisplay.owner}
+					/>
 				</Center>
 			) : null}
 		</View>

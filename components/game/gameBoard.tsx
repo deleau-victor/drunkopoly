@@ -18,7 +18,28 @@ const GameBoard: FC<GameBoardProps> = ({ size, openCard }) => (
 		alignItems='center'>
 		{Tile.map(({ tileId, tilefamily_id, name }) => {
 			const position = makegameBoardPos(tileId, size)
-			return (
+			return name === "Chance" ||
+				name === "Action" ||
+				tileId === 0 ||
+				tileId === 6 ||
+				tileId === 12 ||
+				tileId === 18 ? (
+				<Box
+					key={tileId}
+					width={size}
+					height={size}
+					bgColor='gray.200'
+					position='absolute'
+					zIndex={30}
+					bottom={position.bottom}
+					right={position.right}>
+					<TileContent
+						tileId={tileId}
+						tilefamily_id={tilefamily_id}
+						tileName={name}
+					/>
+				</Box>
+			) : (
 				<Pressable
 					key={tileId}
 					onLongPress={() => {

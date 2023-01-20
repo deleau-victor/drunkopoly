@@ -5,11 +5,7 @@ import GameCard from "../components/card/gameCard"
 type TestProps = {}
 
 const Test: FC<TestProps> = ({}) => {
-	return (
-		<View>
-			<GameCard close={() => {}} />
-		</View>
-	)
+	return <View></View>
 }
 
 export default Test

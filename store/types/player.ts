@@ -3,6 +3,7 @@ export interface Player {
 	name: string
 	position: number
 	color: string
+	possesion: number[]
 }
 
 export interface PlayerState {
