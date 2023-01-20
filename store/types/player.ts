@@ -4,6 +4,7 @@ export interface Player {
 	position: number
 	color: string
 	possesion: number[]
+	gorgées: number
 }
 
 export interface PlayerState {

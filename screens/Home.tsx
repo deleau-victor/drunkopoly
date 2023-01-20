@@ -3,13 +3,14 @@ import {
 	Alert,
 	Box,
 	Button,
+	Center,
 	Image,
 	Input,
 	Row,
 	ScrollView,
+	Slider,
 	Text,
 	View,
-
 } from "native-base"
 import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
 import { addPlayer } from "../slices/player.slice"
@@ -17,27 +18,28 @@ import { RootStackParamList } from "../App"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-
 type HomeProps = NativeStackScreenProps<RootStackParamList, "Home">
 
 const Home: FC<HomeProps> = ({ navigation }) => {
 	const dispatch = useAppDispatch()
-
+	const [onChangeValue, setOnChangeValue] = React.useState(50)
 	const [players, setPlayers] = useState<string[]>([])
 
 	// Check if all players' names are correct
-	const checkPlayers = () =>{
-		players.forEach((playerName) =>{
+	const checkPlayers = () => {
+		players.forEach((playerName) => {
 			// Check if player's name has a correct length
 			if (playerName.length < 3)
-				throw new Error('player list has player with too short names')
-			
+				throw new Error("player list has player with too short names")
+
 			// find all occurrences of player's name
-			let playerOccurences = players.filter((player) => player === playerName)
+			let playerOccurences = players.filter(
+				(player) => player === playerName,
+			)
 
 			// check if a player's name has more than one occurrence
-			if(playerOccurences.length > 1)
-				throw new Error('Player has more than one occurrence')
+			if (playerOccurences.length > 1)
+				throw new Error("Player has more than one occurrence")
 		})
 	}
 
@@ -145,17 +147,43 @@ const Home: FC<HomeProps> = ({ navigation }) => {
 				</Box>
 
 				{/* Start Button */}
+				<Center marginTop='10%' w='70%' mx='15%'>
+					<Text fontSize='lg' fontWeight='bold'>
+						On joue pour
+					</Text>
+					<Text textAlign='center' fontSize='xl' fontWeight='bold' mb={2}>
+						{onChangeValue} Gorgées !
+					</Text>
+					<Slider
+						minValue={20}
+						maxValue={150}
+						defaultValue={50}
+						step={5}
+						size='lg'
+						colorScheme='red'
+						onChange={(v) => {
+							setOnChangeValue(Math.floor(v))
+						}}>
+						<Slider.Track>
+							<Slider.FilledTrack />
+						</Slider.Track>
+						<Slider.Thumb />
+					</Slider>
+				</Center>
+
 				<Button
 					disabled={players.length < 2 ? true : false}
 					width='60%'
-					marginTop='30%'
+					marginTop='10%'
 					marginX='auto'
 					_text={{ fontWeight: "bold", fontSize: "2xl" }}
 					background={players.length < 2 ? "red.400" : "primary.red"}
 					onPress={() => {
 						checkPlayers()
 						players.forEach((player) => {
-							dispatch(addPlayer(player)) // add players to the players store
+							dispatch(
+								addPlayer({ name: player, gorgées: onChangeValue }),
+							) // add players to the players store
 							setPlayers([]) // reset the home players list
 							navigation.navigate("Game")
 						})

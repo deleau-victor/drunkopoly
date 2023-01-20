@@ -1,6 +1,13 @@
+// React
 import React, { FC } from "react"
+
+// NativeBase
 import { Box, Row, Text } from "native-base"
+
+// Database
 import { Price } from "../../database"
+
+// Redux
 import { useAppSelector } from "../../hooks/typedReduxHooks"
 import { Player } from "../../store/types/player"
 
@@ -11,6 +18,7 @@ type GameBodyCardProps = {
 
 const GameBodyCard: FC<GameBodyCardProps> = ({ propertyId, owner }) => {
 	const { players } = useAppSelector((state) => state.PlayerState)
+
 	return (
 		<>
 			{/* Title */}
@@ -20,36 +28,29 @@ const GameBodyCard: FC<GameBodyCardProps> = ({ propertyId, owner }) => {
 
 			{/* Buy prices */}
 			<Box>
-				<Row marginX='auto' w='full' justifyContent='space-between'>
-					<Text>* Terrain nu</Text>
-					<Text>
-						{`${
-							Price.filter(({ tile_id }) => tile_id === propertyId)[0]
-								.loyer_nu
-						} Gorgée`}
-					</Text>
-				</Row>
-				<Row marginX='auto' w='full' justifyContent='space-between'>
-					<Text>* Bar</Text>
-					<Text>{`${
-						Price.filter(({ tile_id }) => tile_id === propertyId)[0]
-							.loyer_bar
-					} Gorgée`}</Text>
-				</Row>
-				<Row marginX='auto' w='full' justifyContent='space-between'>
-					<Text>* Restaurant</Text>
-					<Text>{`${
-						Price.filter(({ tile_id }) => tile_id === propertyId)[0]
-							.loyer_restau
-					} Gorgée`}</Text>
-				</Row>
-				<Row marginX='auto' w='full' justifyContent='space-between'>
-					<Text>* Boîte de nuit</Text>
-					<Text>{`${
-						Price.filter(({ tile_id }) => tile_id === propertyId)[0]
-							.loyer_disco
-					} Gorgée`}</Text>
-				</Row>
+				{/* Filter price to correspond to propertyId and map the price */}
+				{Price.filter(({ tile_id }) => tile_id === propertyId)[0].loyer.map(
+					(loyer, index) => {
+						return (
+							<Row
+								marginX='auto'
+								w='full'
+								justifyContent='space-between'
+								key={index}>
+								<Text>{`* ${
+									index === 0
+										? "Terrain nu"
+										: index === 1
+										? "Bar"
+										: index === 2
+										? "Restaurant"
+										: "Boite de nuit"
+								}`}</Text>
+								<Text>{`${loyer} Gorgée`}</Text>
+							</Row>
+						)
+					},
+				)}
 			</Box>
 
 			{/* Proprio */}
@@ -57,6 +58,7 @@ const GameBodyCard: FC<GameBodyCardProps> = ({ propertyId, owner }) => {
 				Propriétaire
 			</Text>
 			<Text marginY='5%' marginX='auto'>
+				{/* Check if owner is undefined if not display the name of the owner */}
 				{owner ? players[owner.id].name : "Il n'y a pas de propriétaire"}
 			</Text>
 		</>
