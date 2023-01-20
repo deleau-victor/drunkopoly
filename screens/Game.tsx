@@ -17,8 +17,11 @@ import GameCard from "../components/card/gameCard"
 
 // State management
 import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
-import { resetPlayers } from "../slices/player.slice"
+import { playerMoove, resetPlayers } from "../slices/player.slice"
 import { Player } from "../store/types/player"
+
+// database
+import { Tile } from "../database"
 
 type GameProps = NativeStackScreenProps<RootStackParamList, "Game">
 
@@ -31,13 +34,52 @@ const Game: FC<GameProps> = ({ navigation }) => {
 	const [size, setSize] = useState<number>(0)
 	const [cardToDisplay, setcardToDisplay] = useState<cardToDisplay>()
 
-	const { players } = useAppSelector((state) => state.PlayerState)
+	const { players, currentPlayer } = useAppSelector((state) => state.PlayerState)
 
 	const dispatch = useAppDispatch()
 
 	const handleCardDisplay = (id: number) => {
 		const owner = players.find((player) => player.possesion.includes(id))
 		setcardToDisplay({ id, owner: owner })
+	}
+
+	const getRunderDiceNumber = () =>{
+		return Math.floor(Math.random() * (7 - 1) + 1)
+	}
+
+	const calcPlayerNextPosition = (diceScore:number) => {
+		console.log('diceScore', diceScore)
+		let tot = diceScore + players[currentPlayer].position
+
+		if(tot > Tile.length - 1){
+			return tot = tot - Tile.length
+		}
+
+		console.log('next position', tot)
+
+		return tot
+	}
+
+	const moovePlayerToNextPosition = (nextPosition:number) =>{
+		let currentPosition = players[currentPlayer].position
+		// while player isn't at next position
+		do {
+			console.log('current position', currentPosition)
+			if(currentPosition < Tile.length - 1){
+				currentPosition += 1
+				dispatch(playerMoove(currentPosition))
+			}
+			else{
+				currentPosition = 0
+				dispatch(playerMoove(currentPosition))
+			}
+		} while (currentPosition != nextPosition);
+	}
+
+	const roleDice = () =>{
+		let diceNumber = getRunderDiceNumber()
+		let playerNextPosition = calcPlayerNextPosition(diceNumber)
+		moovePlayerToNextPosition(playerNextPosition)
 	}
 
 	useEffect(() => {
@@ -65,31 +107,41 @@ const Game: FC<GameProps> = ({ navigation }) => {
 		})
 	}, [navigation])
 
+
 	return (
 		<View>
 			<SafeAreaView
+				// calculate the size of each case
 				onLayout={(event) => {
 					const { width } = event.nativeEvent.layout
 					setSize(width / 7 - 8)
 				}}>
 				<Center height='100%'>
+
 					{/* Top info content */}
 					<GameTopInfo />
+
 					{/* Game board */}
 					<GameBoard size={size} openCard={handleCardDisplay} />
+
 					{/* Bottom interaction zone */}
 					<Center height='20%'>
 						<Button onPress={() => navigation.navigate("Test")}>
 							<Text
 								fontWeight='bold'
 								color='primary.white'
-								fontSize='2xl'>
+								fontSize='2xl'
+								onPress={() => roleDice()}
+							>
 								Lancez le dé
 							</Text>
 						</Button>
 					</Center>
+
 				</Center>
 			</SafeAreaView>
+
+			{/* Card's Modal */}
 			{cardToDisplay ? (
 				<Center
 					height='full'
@@ -104,6 +156,7 @@ const Game: FC<GameProps> = ({ navigation }) => {
 					/>
 				</Center>
 			) : null}
+
 		</View>
 	)
 }

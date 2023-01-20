@@ -28,11 +28,15 @@ const playerSlice = createSlice({
 		playerBuyTile: (state: PlayerState, action: PayloadAction<number>) => {
 			state.players[state.currentPlayer].possesion.push(action.payload)
 		},
+		playerMoove: (state: PlayerState, action: PayloadAction<number>) => {
+			state.players[state.currentPlayer].position = action.payload
+			return state
+		}
 	},
 })
 
 const { actions, reducer } = playerSlice
 
-export const { addPlayer, resetPlayers, playerBuyTile } = actions
+export const { addPlayer, resetPlayers, playerBuyTile, playerMoove } = actions
 
 export default reducer

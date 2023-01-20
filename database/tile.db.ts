@@ -1,4 +1,4 @@
-interface tile {
+export interface tile {
 	tileId: number
 	name: string
 	action_id?: number
