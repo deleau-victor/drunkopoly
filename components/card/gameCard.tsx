@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { Box, Button, Column, Row, Text } from "native-base"
 
 type GameCardProps = {
-	close : void
+	close : () => void
 	propertyId: string // define the id of the property
 	propertyPriceId: string // define the table property price id of the property
 	ownerId: string // optional - define the owner's id of the property
