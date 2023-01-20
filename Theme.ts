@@ -25,7 +25,7 @@ const Theme = extendTheme({
 		},
 		Text: {
 			baseStyle: {
-				color: "primary.white",
+				color: "primary.black",
 			},
 		},
 		Button: {

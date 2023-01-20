@@ -8,21 +8,21 @@ import { Box, Button, Column } from "native-base"
 import { Tile, TileFamily } from "../../database"
 
 // Components
-import GameHeaderCard from "./gameHeaderCard"
-import GameBodyCard from "./gameBodyCard"
+import PropertyHeaderCard from "./propertyHeaderCard"
+import PropertyBodyCard from "./propertyBodyCard"
 
 // Redux
 import { Player } from "../../store/types/player"
 import { useAppDispatch } from "../../hooks/typedReduxHooks"
 import { playerBuyTile } from "../../slices/player.slice"
 
-type GameCardProps = {
+type PropertyCardProps = {
 	close: () => void
 	propertyId: number | undefined // define the id of the property
 	owner: Player | undefined // define the owner's id of the property
 }
 
-const GameCard: FC<GameCardProps> = ({ close, propertyId, owner }) => {
+const PropertyCard: FC<PropertyCardProps> = ({ close, propertyId, owner }) => {
 	const dispatch = useAppDispatch()
 
 	return (
@@ -33,10 +33,10 @@ const GameCard: FC<GameCardProps> = ({ close, propertyId, owner }) => {
 			backgroundColor='primary.white'
 			opacity={100}>
 			{/* Header */}
-			<GameHeaderCard propertyId={propertyId!} close={close} />
+			<PropertyHeaderCard propertyId={propertyId!} close={close} />
 			{/* Body */}
 			<Column flex='1' padding='5' space='5'>
-				<GameBodyCard owner={owner} propertyId={propertyId!} />
+				<PropertyBodyCard owner={owner} propertyId={propertyId!} />
 				{/* Action's button */}
 				<Button
 					w='90%'
@@ -62,4 +62,4 @@ const GameCard: FC<GameCardProps> = ({ close, propertyId, owner }) => {
 	)
 }
 
-export default GameCard
+export default PropertyCard

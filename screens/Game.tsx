@@ -13,7 +13,7 @@ import { RootStackParamList } from "../App"
 // Components
 import GameTopInfo from "../components/game/gameTopInfo"
 import GameBoard from "../components/game/gameBoard"
-import GameCard from "../components/card/gameCard"
+import PropertyCard from "../components/propertyCard/propertyCard"
 
 // State management
 import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
@@ -43,7 +43,7 @@ const Game: FC<GameProps> = ({ navigation }) => {
 		setcardToDisplay({ id, owner: owner })
 	}
 
-	const getRunderDiceNumber = () =>{
+	const getRandomDiceNumber = () =>{
 		return Math.floor(Math.random() * (7 - 1) + 1)
 	}
 
@@ -73,7 +73,7 @@ const Game: FC<GameProps> = ({ navigation }) => {
 	}
 
 	const roleDice = () =>{
-		let diceNumber = getRunderDiceNumber()
+		let diceNumber = getRandomDiceNumber()
 		let playerNextPosition = calcPlayerNextPosition(diceNumber)
 		moovePlayerToNextPosition(playerNextPosition)
 	}
@@ -145,7 +145,7 @@ const Game: FC<GameProps> = ({ navigation }) => {
 					width='full'
 					background='rgba(0,0,0,0.5)'
 					opacity={100}>
-					<GameCard
+					<PropertyCard
 						close={() => setcardToDisplay(undefined)}
 						propertyId={cardToDisplay.id}
 						owner={cardToDisplay.owner}

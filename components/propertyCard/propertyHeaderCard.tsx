@@ -2,12 +2,12 @@ import React, { FC } from "react"
 import { Box, Text } from "native-base"
 import { Tile, TileFamily } from "../../database"
 
-type GameHeaderCardProps = {
+type PropertyHeaderCardProps = {
 	propertyId: number
 	close: () => void
 }
 
-const GameHeaderCard: FC<GameHeaderCardProps> = ({ propertyId, close }) => {
+const PropertyHeaderCard: FC<PropertyHeaderCardProps> = ({ propertyId, close }) => {
 	return (
 		// Display the color of the family of the tile
 		<Box
@@ -33,4 +33,4 @@ const GameHeaderCard: FC<GameHeaderCardProps> = ({ propertyId, close }) => {
 	)
 }
 
-export default GameHeaderCard
+export default PropertyHeaderCard
