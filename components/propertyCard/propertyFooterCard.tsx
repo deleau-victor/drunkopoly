@@ -1,27 +1,27 @@
 // React
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useEffect, useState } from 'react'
 
 // NativeBase
-import { Button, Text } from "native-base"
+import { Button, Text } from 'native-base'
 
 // Redux
-import { useAppDispatch, useAppSelector } from "../../hooks/typedReduxHooks"
+import { useAppDispatch, useAppSelector } from '../../hooks/typedReduxHooks'
 import {
 	nextPlayer,
 	playerBuyBuild,
 	playerBuyTile,
 	playerDrink,
-} from "../../slices/player.slice"
+} from '../../slices/player.slice'
 import {
 	propertyWasBought,
 	augmentPropertyLevel,
-} from "../../slices/proprietes.slice"
+} from '../../slices/proprietes.slice'
 
 // Database
-import { Tile, TileFamily } from "../../database"
+import { Tile, TileFamily } from '../../database'
 
 type PropertyFooterCardProps = {
-	context: "noOwner" | "isOwner" | "isLocator" | "isLooking"
+	context: 'noOwner' | 'isOwner' | 'isLocator' | 'isLooking'
 	propertyId: number | undefined
 	close: () => void
 }
@@ -38,44 +38,42 @@ const PropertyFooterCard: FC<PropertyFooterCardProps> = ({
 	const [owner, setOwner] = useState<number>()
 
 	// Récupère le niveau de la propriété
-	if (context === "isOwner" || context === "isLocator") {
+	if (context === 'isOwner' || context === 'isLocator') {
 		useEffect(() => {
 			setLevel(
-				proprietes.filter(
-					(property) => property.propertyId === propertyId,
-				)[0].level,
+				proprietes.filter((property) => property.propertyId === propertyId)[0]
+					.level
 			)
 		}, [])
 	}
 
 	// Récupère le propriétaire de la propriété
-	if (context === "isLocator") {
+	if (context === 'isLocator') {
 		useEffect(() => {
 			setOwner(
-				proprietes.filter(
-					(property) => property.propertyId === propertyId,
-				)[0].ownerId,
+				proprietes.filter((property) => property.propertyId === propertyId)[0]
+					.ownerId
 			)
 		}, [])
 	}
 
 	return (
 		<>
-			{/* Si c'est notre tour de jeu et qu'il n'y a pas de proprio */}
-			{context === "noOwner" && (
+			{/* Si c'est votre tour de jeu et qu'il n'y a pas de proprio */}
+			{context === 'noOwner' && (
 				<Button
 					w='90%'
 					marginX='auto'
 					background={
 						TileFamily.filter(
 							({ tilefamilyId }) =>
-								tilefamilyId === Tile[propertyId!].tilefamily_id,
+								tilefamilyId === Tile[propertyId!].tilefamily_id
 						)[0].color
 					}
 					_text={{
-						fontSize: "xl",
-						fontWeight: "black",
-						textAlign: "center",
+						fontSize: 'xl',
+						fontWeight: 'black',
+						textAlign: 'center',
 					}}
 					onPress={() => {
 						dispatch(playerBuyTile(propertyId!))
@@ -83,17 +81,18 @@ const PropertyFooterCard: FC<PropertyFooterCardProps> = ({
 							propertyWasBought({
 								propertyId: propertyId!,
 								ownerId: currentPlayer,
-							}),
+							})
 						)
 						dispatch(nextPlayer())
 						close()
-					}}>
+					}}
+				>
 					Achète le terrain et bois 1 gorgée
 				</Button>
 			)}
 
 			{/* Si c'est notre tour de jeu et que l'on est le proprio */}
-			{context === "isOwner" &&
+			{context === 'isOwner' &&
 				(level! < 3 ? (
 					<Button
 						w='90%'
@@ -101,7 +100,7 @@ const PropertyFooterCard: FC<PropertyFooterCardProps> = ({
 						background={
 							TileFamily.filter(
 								({ tilefamilyId }) =>
-									tilefamilyId === Tile[propertyId!].tilefamily_id,
+									tilefamilyId === Tile[propertyId!].tilefamily_id
 							)[0].color
 						}
 						onPress={() => {
@@ -109,22 +108,24 @@ const PropertyFooterCard: FC<PropertyFooterCardProps> = ({
 							dispatch(playerBuyBuild(level! + 2))
 							dispatch(nextPlayer())
 							close()
-						}}>
+						}}
+					>
 						<Text
 							fontSize='xl'
 							fontWeight='black'
 							textAlign='center'
-							color='primary.white'>
+							color='primary.white'
+						>
 							Acheter un
 							{level === 0
-								? " bar "
+								? ' bar '
 								: level === 1
-								? " restaurant "
-								: "e boite de nuit "}
+								? ' restaurant '
+								: 'boite de nuit '}
 							et boire
 							{` ${
 								proprietes.filter(
-									(property) => property.propertyId === propertyId,
+									(property) => property.propertyId === propertyId
 								)[0].level + 2
 							} `}
 							gorgées
@@ -137,68 +138,69 @@ const PropertyFooterCard: FC<PropertyFooterCardProps> = ({
 						background={
 							TileFamily.filter(
 								({ tilefamilyId }) =>
-									tilefamilyId === Tile[propertyId!].tilefamily_id,
+									tilefamilyId === Tile[propertyId!].tilefamily_id
 							)[0].color
 						}
 						_text={{
-							fontSize: "xl",
-							fontWeight: "black",
-							textAlign: "center",
+							fontSize: 'xl',
+							fontWeight: 'black',
+							textAlign: 'center',
 						}}
 						onPress={() => {
 							dispatch(nextPlayer())
 							close()
-						}}>
+						}}
+					>
 						Propriétée améliorée au maximum
 					</Button>
 				))}
 
 			{/* Si c'est notre tour de jeu et que l'on est pas le proprio */}
-			{context === "isLocator" && (
+			{context === 'isLocator' && (
 				<Button
 					w='90%'
 					marginX='auto'
 					background={
 						TileFamily.filter(
 							({ tilefamilyId }) =>
-								tilefamilyId === Tile[propertyId!].tilefamily_id,
+								tilefamilyId === Tile[propertyId!].tilefamily_id
 						)[0].color
 					}
 					_text={{
-						fontSize: "xl",
-						fontWeight: "black",
-						textAlign: "center",
+						fontSize: 'xl',
+						fontWeight: 'black',
+						textAlign: 'center',
 					}}
 					onPress={() => {
-						dispatch(
-							playerDrink({ gorgées: level! + 1, ownerId: owner! }),
-						)
+						dispatch(playerDrink({ gorgées: level! + 1, ownerId: owner! }))
 						dispatch(nextPlayer())
 						close()
-					}}>{`Paye ton loyer et bois ${level! + 1} gorgée${
-					level! > 0 ? "s" : ""
+					}}
+				>{`Paye ton loyer et bois ${level! + 1} gorgée${
+					level! > 0 ? 's' : ''
 				}`}</Button>
 			)}
 
 			{/* Si consulte la propriété */}
-			{context === "isLooking" && (
+			{context === 'isLooking' && (
 				<Button
 					w='90%'
 					marginX='auto'
 					background={
 						TileFamily.filter(
 							({ tilefamilyId }) =>
-								tilefamilyId === Tile[propertyId!].tilefamily_id,
+								tilefamilyId === Tile[propertyId!].tilefamily_id
 						)[0].color
 					}
 					_text={{
-						fontSize: "xl",
-						fontWeight: "black",
-						textAlign: "center",
+						fontSize: 'xl',
+						fontWeight: 'black',
+						textAlign: 'center',
 					}}
 					onPress={() => {
 						close()
-					}}>
+					}}
+				>
 					Fermer la carte
 				</Button>
 			)}
