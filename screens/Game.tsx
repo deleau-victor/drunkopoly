@@ -80,7 +80,7 @@ const Game: FC<GameProps> = ({ navigation }) => {
 			// if player has finished moving
 			if (currentPosition === nextPosition) {
 				clearInterval(interval)
-				handlePlayerAction(currentPlayer)
+				handlePlayerAction(currentPosition)
 			}
 		}, 500)
 	}
