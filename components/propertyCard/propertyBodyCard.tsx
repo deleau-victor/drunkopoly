@@ -11,12 +11,12 @@ import { Price } from "../../database"
 import { useAppSelector } from "../../hooks/typedReduxHooks"
 import { Player } from "../../store/types/player"
 
-type GameBodyCardProps = {
+type PropertyBodyCardProps = {
 	propertyId: number
 	owner: Player | undefined
 }
 
-const GameBodyCard: FC<GameBodyCardProps> = ({ propertyId, owner }) => {
+const PropertyBodyCard: FC<PropertyBodyCardProps> = ({ propertyId, owner }) => {
 	const { players } = useAppSelector((state) => state.PlayerState)
 
 	return (
@@ -65,4 +65,4 @@ const GameBodyCard: FC<GameBodyCardProps> = ({ propertyId, owner }) => {
 	)
 }
 
-export default GameBodyCard
+export default PropertyBodyCard

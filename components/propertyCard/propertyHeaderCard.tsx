@@ -2,11 +2,12 @@ import React, { FC } from "react"
 import { Box, Text } from "native-base"
 import { Tile, TileFamily } from "../../database"
 
-type GameHeaderCardProps = {
+type PropertyHeaderCardProps = {
 	propertyId: number
+	close: () => void
 }
 
-const GameHeaderCard: FC<GameHeaderCardProps> = ({ propertyId }) => {
+const PropertyHeaderCard: FC<PropertyHeaderCardProps> = ({ propertyId, close }) => {
 	return (
 		// Display the color of the family of the tile
 		<Box
@@ -25,8 +26,11 @@ const GameHeaderCard: FC<GameHeaderCardProps> = ({ propertyId }) => {
 				fontWeight='bold'>
 				{Tile[propertyId].name}
 			</Text>
+			<Text position='absolute' onPress={() => close()}>
+				X
+			</Text>
 		</Box>
 	)
 }
 
-export default GameHeaderCard
+export default PropertyHeaderCard
