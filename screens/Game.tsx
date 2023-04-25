@@ -1,34 +1,34 @@
 // React
-import React, { FC, useEffect, useState } from "react"
-import { Alert } from "react-native"
+import React, { FC, useEffect, useState } from 'react'
+import { Alert } from 'react-native'
 
 // NativeBase
-import { Text, View, Center, Button, Modal } from "native-base"
-import { SafeAreaView } from "react-native-safe-area-context"
+import { Text, View, Center, Button, Modal } from 'native-base'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 // Navigation
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RootStackParamList } from "../App"
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { RootStackParamList } from '../App'
 
 // Components
-import GameTopInfo from "../components/game/gameTopInfo"
-import GameBoard from "../components/game/gameBoard"
-import PropertyCard from "../components/propertyCard/propertyCard"
+import GameTopInfo from '../components/game/gameTopInfo'
+import GameBoard from '../components/game/gameBoard'
+import PropertyCard from '../components/propertyCard/propertyCard'
 
 // State management
-import { useAppDispatch, useAppSelector } from "../hooks/typedReduxHooks"
-import { nextPlayer, playerMoove, resetPlayers } from "../slices/player.slice"
-import { Player } from "../store/types/player"
+import { useAppDispatch, useAppSelector } from '../hooks/typedReduxHooks'
+import { nextPlayer, playerMoove, resetPlayers } from '../slices/player.slice'
+import { Player } from '../store/types/player'
 
 // database
-import { Tile } from "../database"
+import { Tile } from '../database'
 
-type GameProps = NativeStackScreenProps<RootStackParamList, "Game">
+type GameProps = NativeStackScreenProps<RootStackParamList, 'Game'>
 
 interface cardToDisplay {
 	id: number | undefined
 	owner: Player | undefined
-	context: "noOwner" | "isOwner" | "isLocator" | "isLooking"
+	context: 'noOwner' | 'isOwner' | 'isLocator' | 'isLooking'
 }
 
 const Game: FC<GameProps> = ({ navigation }) => {
@@ -38,7 +38,7 @@ const Game: FC<GameProps> = ({ navigation }) => {
 	>()
 
 	const { players, currentPlayer } = useAppSelector(
-		(state) => state.PlayerState,
+		(state) => state.PlayerState
 	)
 
 	const properties = useAppSelector((state) => state.propertiesState)
@@ -47,10 +47,10 @@ const Game: FC<GameProps> = ({ navigation }) => {
 
 	const handleCardDisplay = (id: number) => {
 		const owner = players.find((player) => player.possesion.includes(id))
-		setcardToDisplay({ id, owner: owner, context: "isLooking" })
+		setcardToDisplay({ id, owner: owner, context: 'isLooking' })
 	}
 
-	const getRandomDiceNumber = () =>{
+	const getRandomDiceNumber = () => {
 		return Math.floor(Math.random() * (7 - 1) + 1)
 	}
 
@@ -66,40 +66,48 @@ const Game: FC<GameProps> = ({ navigation }) => {
 		let currentPosition = players[currentPlayer].position
 
 		// while player isn't at next position
-		do {
+		const interval = setInterval(() => {
+			// if player has to move forward
 			if (currentPosition < Tile.length - 1) {
 				currentPosition += 1
 				dispatch(playerMoove(currentPosition))
-			} else {
+			}
+			// if player player go back to start position
+			if (currentPosition === Tile.length - 1) {
 				currentPosition = 0
 				dispatch(playerMoove(currentPosition))
 			}
-		} while (currentPosition != nextPosition)
-		if (
-			Tile[nextPosition].tilefamily_id! ||
-			Tile[nextPosition].tilefamily_id === 0
-		) {
+			// if player has finished moving
+			if (currentPosition === nextPosition) {
+				clearInterval(interval)
+				handlePlayerAction(currentPlayer)
+			}
+		}, 500)
+	}
+
+	const handlePlayerAction = (position: number) => {
+		if (Tile[position].tilefamily_id! || Tile[position].tilefamily_id === 0) {
 			let asOwner = properties.find(
-				(property) => property.propertyId === nextPosition,
+				(property) => property.propertyId === position
 			)
 			if (asOwner !== undefined) {
 				if (asOwner.ownerId === players[currentPlayer].id) {
 					setcardToDisplay({
-						context: "isOwner",
-						id: nextPosition,
+						context: 'isOwner',
+						id: position,
 						owner: players[currentPlayer],
 					})
 				} else {
 					setcardToDisplay({
-						context: "isLocator",
-						id: nextPosition,
+						context: 'isLocator',
+						id: position,
 						owner: players[asOwner.ownerId],
 					})
 				}
 			} else {
 				setcardToDisplay({
-					context: "noOwner",
-					id: nextPosition,
+					context: 'noOwner',
+					id: position,
 					owner: undefined,
 				})
 			}
@@ -108,33 +116,33 @@ const Game: FC<GameProps> = ({ navigation }) => {
 		}
 	}
 
-	const roleDice = () =>{
+	const roleDice = () => {
 		let diceNumber = getRandomDiceNumber()
 		let playerNextPosition = calcPlayerNextPosition(diceNumber)
 		moovePlayerToNextPosition(playerNextPosition)
 	}
 
 	useEffect(() => {
-		navigation.addListener("beforeRemove", (event) => {
+		navigation.addListener('beforeRemove', (event) => {
 			event.preventDefault()
 			Alert.alert(
 				"Retourner à l'écran d'accueil ?",
-				"Si vous quittez la partie, celle-ci sera remise à zéro.",
+				'Si vous quittez la partie, celle-ci sera remise à zéro.',
 				[
 					{
-						text: "Annuler",
-						style: "cancel",
+						text: 'Annuler',
+						style: 'cancel',
 						onPress: () => {},
 					},
 					{
-						text: "Ok",
-						style: "destructive",
+						text: 'Ok',
+						style: 'destructive',
 						onPress: () => {
 							dispatch(resetPlayers())
 							navigation.dispatch(event.data.action)
 						},
 					},
-				],
+				]
 			)
 		})
 	}, [navigation])
@@ -146,7 +154,8 @@ const Game: FC<GameProps> = ({ navigation }) => {
 				onLayout={(event) => {
 					const { width } = event.nativeEvent.layout
 					setSize(width / 7 - 8)
-				}}>
+				}}
+			>
 				<Center height='100%'>
 					{/* Top info content */}
 					<GameTopInfo />
@@ -157,10 +166,7 @@ const Game: FC<GameProps> = ({ navigation }) => {
 					{/* Bottom interaction zone */}
 					<Center height='25%'>
 						<Button onPress={() => roleDice()}>
-							<Text
-								fontWeight='bold'
-								color='primary.white'
-								fontSize='2xl'>
+							<Text fontWeight='bold' color='primary.white' fontSize='2xl'>
 								Lancez le dé
 							</Text>
 						</Button>
@@ -175,7 +181,8 @@ const Game: FC<GameProps> = ({ navigation }) => {
 					position='absolute'
 					width='full'
 					background='rgba(0,0,0,0.5)'
-					opacity={100}>
+					opacity={100}
+				>
 					<PropertyCard
 						close={() => setcardToDisplay(undefined)}
 						propertyId={cardToDisplay.id}
