@@ -87,6 +87,25 @@ const Game: FC<GameProps> = ({ navigation }) => {
          }
       }, 500)
    }
+		// while player isn't at next position
+		const interval = setInterval(() => {
+			// if player has to move forward
+			if (currentPosition < Tile.length - 1) {
+				currentPosition += 1
+				dispatch(playerMoove(currentPosition))
+			}
+			// if player player go back to start position
+			if (currentPosition === Tile.length - 1) {
+				currentPosition = 0
+				dispatch(playerMoove(currentPosition))
+			}
+			// if player has finished moving
+			if (currentPosition === nextPosition) {
+				clearInterval(interval)
+				handlePlayerAction(currentPosition)
+			}
+		}, 500)
+	}
 
    const handlePlayerAction = (position: number) => {
       if (Tile[position].tilefamily_id! || Tile[position].tilefamily_id === 0) {
